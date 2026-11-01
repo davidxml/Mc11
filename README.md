@@ -1,2 +1,2 @@
-# Netshare-cust
-A custom implementation of netshare technology
+# Mc11
+Tracks Subscriptions for users, preventing surprised billings for unintended subscriptions
