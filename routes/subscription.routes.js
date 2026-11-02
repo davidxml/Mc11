@@ -2,6 +2,20 @@ import { Router } from 'express';
 
 const subscriptionRouter = Router();
 
-subscriptionRouter.post('/', (req, res) => res.send({title: 'Get all subscriptions'}));
+subscriptionRouter.get('/', (req, res) => res.send({title: 'Get all subscriptions'}));
+
+subscriptionRouter.get('/:id', (req, res) => res.send({title: 'Get the details of a specific subscription'}));
+
+subscriptionRouter.post('/', (req, res) => res.send({title: 'Create subscriptions'}));
+
+subscriptionRouter.put('/:id', (req, res) => res.send({title: 'Update a specific user subscription'}));
+
+subscriptionRouter.delete('/:id', (req, res) => res.send({title: 'Remove all subscriptions of a specific user'}));
+
+subscriptionRouter.get('/user/:id', (req, res) => res.send({title: 'Get all subscription details of a user'}));
+
+subscriptionRouter.put('/:id/cancellation', (req, res) => res.send({title: 'CANCEL subscriptions'}));
+
+subscriptionRouter.get('/upcoming-renewals', (req, res) => res.send({title: 'Get upcoming renewals'}));
 
 export default subscriptionRouter;
