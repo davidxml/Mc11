@@ -1,13 +1,12 @@
 import { Router } from 'express';
-import { getAllUsers } from '../controllers/User.controller.js';
+import { getAllUsers, getUser } from '../controllers/User.controller.js';
 
 const userRouter = Router();
 // GET /users -> get all users 
 userRouter.get('/', getAllUsers);
 
 // GET /users/:id -> get user by id
-userRouter.get('/:', (req, res) => res.send({title: 'Get Unique User details'}));
-
+userRouter.get('/:', getUser);
 // POST /users -> create new Users
 userRouter.post('/', (req, res) => res.send({title: 'Create a new user'}));
 
