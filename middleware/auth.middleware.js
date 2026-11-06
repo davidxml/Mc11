@@ -1,6 +1,6 @@
-import { JWT_SECRET } from "../config/env";
-import User from "../models/user.model";
-import jwt from 'jsonwebtoken'
+import { JWT_SECRET } from "../config/env.js";
+import User from "../models/user.model.js";
+import jwt from "jsonwebtoken";
 
 // request to get user details --> authorize middleware --> verify request --> if valid --> next --> get user details
 
