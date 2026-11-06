@@ -1,0 +1,3 @@
+- reimplement this using Goolang
+- build a rate limiter from scratch using the token bucket algorithm.
+- for now, follow through..
