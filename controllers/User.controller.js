@@ -23,8 +23,8 @@ export const getUser = async (req, res, next) => {
             throw error;
         }
 
-        
-        return res.status(200).json({
+
+        res.status(200).json({
             success: true,
             message: 'User retrieved successfully',
             data: user
@@ -33,4 +33,4 @@ export const getUser = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+};
