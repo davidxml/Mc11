@@ -1,9 +1,8 @@
 import mongoose from 'mongoose';
-import User from './models/user.model.js';
+import User from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken'
-import userRouter from './routes/user.route.js'
-import {JWT_EXPIRES_IN, JWT_SECRET} from './config/env.js'
+import {JWT_EXPIRES_IN, JWT_SECRET} from '../config/env.js'
 
 export const signUp  = async (req, res, next) => {
     /* a req body ->  a req.body is an object containing 
@@ -29,8 +28,14 @@ export const signUp  = async (req, res, next) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        const newUsers = await userRouter.create([{ name, email, password: hashedPassword }, { session }])
-        const token = jwt.sign({userid: newUsers[0]._id}, JWT_SECRET, {expiresIn: JWT_EXPIRES_IN})
+        const newUser = await User.create([
+            { name, email, password: hashedPassword }, 
+            { session }]);
+        const token = jwt.sign(
+            { userid: newUser[0]._id}, 
+            JWT_SECRET, 
+            { expiresIn: JWT_EXPIRES_IN }
+        );
 
         await session.commitTransaction();
         session.endSession();
@@ -40,13 +45,13 @@ export const signUp  = async (req, res, next) => {
             message: 'User created successfully',
             data: {
                 token,
-                user: newUsers[0]
+                user: newUser[0]
             }
         })
     } catch (error) {
         await session.abortTransaction();
         session.endSession();
-        next(error)
+        next(error);
         
     }
 };
