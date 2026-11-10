@@ -6,7 +6,7 @@ const subscriptionRouter = Router();
 
 subscriptionRouter.get('/', authorize, getAllSubscriptions);
 
-subscriptionRouter.get('/:id', authorize, getSubscriptionInfo);
+subscriptionRouter.get('/:name', authorize, getSubscriptionInfo);
 
 subscriptionRouter.post('/', authorize, createSubscription);
 
