@@ -12,27 +12,26 @@ export const sendReminders = serve( async (context) => {
 
     if(!subscription || subscription.status !== "active") return;
 
-    const renewalDate = dayjs(subscription.renew222alDate)
+    const renewalDate = dayjs(subscription.renewalDate)
 
-    if(renewalDate.isBefore(dayjs)) {
+    if(renewalDate.isBefore(dayjs())) {
         console.log(`Renewal date has passed for subscription ${subscriptionId}. stopping workflow.`);
         return;
-
     }
 
     for(const daysBefore of REMINDERS) {
         const reminderDate = renewalDate.subtract(daysBefore, 'day');
 
         if(reminderDate.isAfter(dayjs())) {
-            await sleepUntilReminder(context, `Reminder ${daysBefore} days before`)
+            await sleepUntilReminder(context, `Reminder ${daysBefore} days before`, reminderDate)
         }
 
-        await triggerReminder(context, `Reminider for ${daysBefore} days before`);
+        await triggerReminder(context, `Reminder for ${daysBefore} days before`);
     }
 });
 
 const fetchSubscription = async (context, subscriptionId) => {
-    return await context.run('get subscription', () => {
+    return await context.run('get subscription', async () => {
         return Subscription.findById(subscriptionId).populate('user', 'name email');
     })
 }
@@ -44,6 +43,6 @@ const sleepUntilReminder = async (context, label, date) => {
 
 const triggerReminder = async(context, label) => {
     return await context.run(label, () => {
-        console.log(`Triggering ${label} reminder`);
+        console.log(`Triggering ${label} renewal`);
     })
 }
