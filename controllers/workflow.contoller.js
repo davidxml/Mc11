@@ -10,7 +10,7 @@ export const sendReminders = serve( async (context) => {
     const { subscriptionId } = context.requestPayload;
     const subscription = await fetchSubscription(context, subscriptionId);
 
-    if(!subscription || subscription.status !== active) return;
+    if(!subscription || subscription.status !== "active") return;
 
     const renewalDate = dayjs(subscription.renew222alDate)
 
@@ -26,6 +26,8 @@ export const sendReminders = serve( async (context) => {
         if(reminderDate.isAfter(dayjs())) {
             await sleepUntilReminder(context, `Reminder ${daysBefore} days before`)
         }
+
+        await triggerReminder(context, `Reminider for ${daysBefore} days before`);
     }
 });
 
@@ -36,5 +38,12 @@ const fetchSubscription = async (context, subscriptionId) => {
 }
 
 const sleepUntilReminder = async (context, label, date) => {
-    
+    console.log(`Sleeping until ${label} reminder at ${date}`);
+    await context.sleepUntil(label, date.toDate());
+}
+
+const triggerReminder = async(context, label) => {
+    return await context.run(label, () => {
+        console.log(`Triggering ${label} reminder`);
+    })
 }
