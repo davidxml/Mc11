@@ -35,4 +35,13 @@ app.listen(PORT, async () => {
     await connectToDatabase();
 });
 
+process.on('uncaughtException', (err) => {
+    if (err.code === 'ECONNRESET') {
+        console.warn('Network connection reset by peer (ECONNRESET) - ignoring safely.');
+        return;
+    }
+    console.error('Uncaught Exception:', err);
+    process.exit(1);
+});
+
 export default app;
