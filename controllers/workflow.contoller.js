@@ -27,7 +27,7 @@ export const sendReminders = serve( async (context) => {
             await sleepUntilReminder(context, `Reminder ${daysBefore} days before`, reminderDate)
         }
 
-        await triggerReminder(context, `Reminder for ${daysBefore} days before`, subscription);
+        await triggerReminder(context, `${daysBefore} days before reminder`, subscription);
     }
 });
 
