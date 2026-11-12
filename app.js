@@ -12,6 +12,10 @@ import workflowRouter from "./routes/workflow.route.js";
 
 const app = express();
 
+// Trust Render's reverse proxy so req.ip and Arcjet read the real client IP
+app.set('trust proxy', true);
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
